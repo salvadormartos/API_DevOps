@@ -1,6 +1,8 @@
 import os
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, DeclarativeBase
+from dotenv import load_dotenv
+
 '''
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, DeclarativeBase
@@ -31,7 +33,9 @@ def get_db():
 # En Render, ellos te dan esta URL.
 # En local, puedes poner una por defecto o usar un archivo .env
 # Obtenemos la URL de la variable de entorno
-uri = os.getenv("DATABASE_URL", "postgres://avnadmin:AVNS_PbfUzariQbRrcKETS-T@pg-3dd5b5a-iespuntadelverde-python.d.aivencloud.com:17185/defaultdb?sslmode=require")
+load_dotenv()
+
+uri = os.getenv('DATABASE_URL')
 
 # FIX: SQLAlchemy requiere "postgresql://" en lugar de "postgres://"
 if uri and uri.startswith("postgres://"):
