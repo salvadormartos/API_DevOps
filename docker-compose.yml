@@ -1,0 +1,33 @@
+version: '3.8'
+
+services:
+  # Servicio 1: La Base de Datos
+  db:
+    image: postgres:15-alpine
+    container_name: postgres_db
+    restart: always
+    environment:
+      - POSTGRES_USER=salva
+      - POSTGRES_PASSWORD=salva
+      - POSTGRES_DB=productos
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  # Servicio 2: La API (FastAPI)
+  api:
+    build: .
+    container_name: fastapi_app
+    ports:
+      - "8000:8000"
+    environment:
+      # Aquí le decimos a Python cómo conectarse a la DB
+      # Nota que usamos 'db' (el nombre del servicio) como host
+      - DATABASE_URL=postgresql://salva:salva@db:5432/productos
+    depends_on:
+      - db
+
+# Definimos el volumen para que los datos no se borren al apagar los contenedores
+volumes:
+  postgres_data:

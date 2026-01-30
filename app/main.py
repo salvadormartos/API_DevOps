@@ -1,7 +1,7 @@
 from fastapi import FastAPI, Depends, HTTPException, status
 from sqlalchemy.orm import Session
 from database import Base, engine, get_db
-import crud
+from app import crud
 from schemas import ProductoCreate, ProductoUpdate, ProductoOut
 
 app = FastAPI(title="FastAPI + SQLite", version="1.0.0")
