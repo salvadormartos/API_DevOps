@@ -1,0 +1,50 @@
+name: API CI/CD Pipeline
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    services:
+      # Levantamos la DB en GitHub para los tests
+      postgres:
+        image: postgres:15-alpine
+        env:
+          POSTGRES_USER: salva
+          POSTGRES_PASSWORD: salva
+          POSTGRES_DB: productos
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    steps:
+      - name: Descargar código
+        uses: actions/checkout@v4
+
+      - name: Configurar Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Instalar dependencias
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Ejecutar Tests
+        env:
+          # Le decimos a los tests dónde está la DB de GitHub
+          DATABASE_URL: postgresql://salva:salva@localhost:5432/productos
+        run: |
+          # Usamos PYTHONPATH=. para que encuentre la carpeta 'app'
+          export PYTHONPATH=$PYTHONPATH:.
+          pytest -p no:cacheprovider tests/
