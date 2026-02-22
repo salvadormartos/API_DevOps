@@ -9,4 +9,4 @@ def test_read_main():
     response = client.get("/")
     assert response.status_code == 200
     # Ajusta esto a lo que devuelva tu ruta "/" real
-    assert response.json() == {"message": "Hola Mundo"}
+    assert response.json() == {"message": "App API_DevOps v1.0"}

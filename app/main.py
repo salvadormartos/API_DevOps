@@ -39,4 +39,4 @@ def eliminar_producto(codigo: int, db: Session = Depends(get_db)):
 
 @app.get("/")
 def read_root():
-    return {"message": "Hola Mundo"}
+    return {"message": "App API_DevOps v1.0"}
