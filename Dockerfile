@@ -1,5 +1,5 @@
 # 1. Imagen base ligera y estable
-FROM python:3.11-slim
+FROM python:3.13-slim
 
 # 2. Variables de entorno para optimizar Python en contenedores
 # No escribe archivos .pyc y envía logs directamente a la consola

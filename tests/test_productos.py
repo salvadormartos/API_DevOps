@@ -39,12 +39,10 @@ def test_crear_producto(client):
     assert "codigo" in data
     assert isinstance(data["codigo"], int)
 
-
 def test_listar_productos(client):
     response = client.get("/productos/")
     assert response.status_code == 200
     assert isinstance(response.json(), list)
-
 
 def test_crear_producto_sin_precio_falla(client):
     # Enviamos un payload al que le falta el campo obligatorio 'precio'
@@ -55,7 +53,6 @@ def test_crear_producto_sin_precio_falla(client):
     # Comprobamos que la API lo rechaza (422 es el estándar de FastAPI para errores de validación)
     assert response.status_code == 422
     print("\n Confirmado: La API rechaza correctamente productos sin precio.")
-
 
 def test_crear_producto_precio_negativo_falla(client):
     payload = {
